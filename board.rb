@@ -31,9 +31,9 @@ class Board
                 add_piece(new_piece, [row_idx, col_idx])
             end
         end
-        bishop = Bishop.new(:Black, self, [3,4])
-        add_piece(bishop, [3,4])
-        print "#{bishop.moves}\n"
+        queen = Queen.new(:Black, self, [3,4])
+        add_piece(queen, [3,4])
+        print "#{queen.moves}\n"
 
         pretty_print_board
     end

@@ -1,6 +1,8 @@
 require_relative 'piece'
 
 module Slideable
+    attr_reader :HORIZONTAL_DIRS, :DIAGONAL_DIRS
+    
     HORIZONTAL_DIRS = [[1,0],[0,1],[-1,0],[0,-1]]
     DIAGONAL_DIRS = [[1,1],[-1,-1],[1,-1],[-1,1]]
 

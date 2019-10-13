@@ -1,6 +1,7 @@
 require_relative 'piece'
 require_relative 'slideable'
 require_relative 'stepable'
+require_relative 'nullpiece'
 
 class Board
     attr_accessor :rows
@@ -26,6 +27,12 @@ class Board
                 add_piece(new_piece, [row_idx, col_idx])
             end
         end
+
+        (2..5).each do |row_idx|
+            (0...rows.length).each do |col_idx|
+                add_piece(NullPiece.instance, [row_idx, col_idx])
+            end
+        end
         
         (6..7).each do |row_idx|
             (0...rows.length).each do |col_idx|
@@ -33,9 +40,9 @@ class Board
                 add_piece(new_piece, [row_idx, col_idx])
             end
         end
-        king = King.new(:Black, self, [4,4])
-        add_piece(king, king.pos)
-        print "#{king.moves}\n"
+        knight = Knight.new(:Black, self, [4,4])
+        add_piece(knight, knight.pos)
+        print "#{knight.moves}\n"
 
         pretty_print_board
     end
@@ -52,8 +59,8 @@ class Board
         rows.each_with_index do |row, r_idx| 
             print "#{r_idx}  "
             row.each do |square| 
-                print square.to_s unless square.nil?
-                print "_____" if square.nil?
+                print square.to_s unless square.is_a?(NullPiece)
+                print "_____" if square.is_a?(NullPiece)
                 print "  "
             end
             puts
@@ -69,7 +76,7 @@ class Board
         raise "Cannot move pieces off of board." unless valid_pos?(end_pos) && valid_pos?(start_pos)
         raise "Piece cannot move there." unless rows[start_row][start_col].moves.include?(end_pos)
 
-        rows[end_row][end_col], rows[start_row][start_col] = rows[start_row][start_col], nil
+        rows[end_row][end_col], rows[start_row][start_col] = rows[start_row][start_col], NullPiece.instance
         pretty_print_board
     end
 

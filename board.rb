@@ -19,17 +19,24 @@ class Board
     def pieces
         (0..1).each do |row_idx|
             (0...rows.length).each do |col_idx|
-                rows[row_idx][col_idx] = Piece.new(:black, self, [row_idx, col_idx])
+                add_piece(:black, [row_idx, col_idx])
+                # rows[row_idx][col_idx] = Piece.new(:black, self, [row_idx, col_idx])
             end
         end
-
+        
         (6..7).each do |row_idx|
             (0...rows.length).each do |col_idx|
-                rows[row_idx][col_idx] = Piece.new(:white, self, [row_idx, col_idx])
+                add_piece(:white, [row_idx, col_idx])
+                # rows[row_idx][col_idx] = Piece.new(:white, self, [row_idx, col_idx])
             end
         end
 
         pretty_print_board
+    end
+
+    def add_piece(color, pos)
+        row, col = pos
+        rows[row][col] = Piece.new(color, self, pos)
     end
 
     def pretty_print_board
@@ -60,4 +67,4 @@ class Board
     end
 end
 x = Board.new
-x.move_piece([1,7], [2,9])
+x.move_piece([1,7], [2,7])

@@ -20,14 +20,12 @@ class Board
         (0..1).each do |row_idx|
             (0...rows.length).each do |col_idx|
                 add_piece(:black, [row_idx, col_idx])
-                # rows[row_idx][col_idx] = Piece.new(:black, self, [row_idx, col_idx])
             end
         end
         
         (6..7).each do |row_idx|
             (0...rows.length).each do |col_idx|
                 add_piece(:white, [row_idx, col_idx])
-                # rows[row_idx][col_idx] = Piece.new(:white, self, [row_idx, col_idx])
             end
         end
 

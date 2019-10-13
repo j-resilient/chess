@@ -33,7 +33,6 @@ class Board
         end
         rook = Rook.new(:Black, self, [3,4])
         add_piece(rook, [3,4])
-        print "#{rook.moves}\n"
 
         pretty_print_board
     end
@@ -44,7 +43,11 @@ class Board
     end
 
     def pretty_print_board
-        rows.each do |row| 
+        print "  "
+        (0..7).each { |i| print "   #{i}   " }
+        puts
+        rows.each_with_index do |row, r_idx| 
+            print "#{r_idx}  "
             row.each do |square| 
                 print square.to_s unless square.nil?
                 print "_____" if square.nil?
@@ -63,7 +66,7 @@ class Board
         raise "Cannot move pieces off of board." unless valid_pos?(end_pos) && valid_pos?(start_pos)
         raise "Piece cannot move there." unless rows[start_row][start_col].moves.include?(end_pos)
 
-        rows[end_row][end_col], rows[start_row][start_col] = rows[start_row][start_col], rows[end_row][end_col]
+        rows[end_row][end_col], rows[start_row][start_col] = rows[start_row][start_col], nil
         pretty_print_board
     end
 
@@ -72,4 +75,4 @@ class Board
     end
 end
 x = Board.new
-# x.move_piece([3,4], [1,4])
+x.move_piece([3,4], [6,4])

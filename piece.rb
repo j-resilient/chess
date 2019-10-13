@@ -5,7 +5,7 @@ class Piece
     end
 
     def to_s
-        @color
+        self.symbol
     end
 
     def empty?
@@ -13,10 +13,11 @@ class Piece
     end
 
     def valid_moves
-        # just a placeholder? all of the pieces move differently
+        # ??? not overwritten by a subclass I got nothing
     end
 
     def symbol
-        # another placeholder??
+        # overwritten by a subclass
+        @color
     end
 end

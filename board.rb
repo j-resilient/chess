@@ -33,9 +33,9 @@ class Board
                 add_piece(new_piece, [row_idx, col_idx])
             end
         end
-        knight = Knight.new(:Black, self, [4,4])
-        add_piece(knight, knight.pos)
-        print "#{knight.moves}\n"
+        king = King.new(:Black, self, [4,4])
+        add_piece(king, king.pos)
+        print "#{king.moves}\n"
 
         pretty_print_board
     end

@@ -1,4 +1,3 @@
-# knight/king: +symbol, # move_diffs (private)
 require_relative 'piece'
 
 module Stepable
@@ -31,5 +30,18 @@ class Knight < Piece
     def move_diffs
         [[-2, -1], [-2,  1], [-1, -2], [-1,  2], 
         [ 1, -2],[ 1,  2], [ 2, -1],[ 2,  1]]
+    end
+end
+
+class King < Piece
+    include Stepable 
+
+    def symbol
+        :King
+    end
+
+    protected
+    def move_diffs
+        [[-1,-1],[0,-1],[1,-1], [-1,0], [1,0], [-1,1], [0,1], [1,1]]
     end
 end

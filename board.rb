@@ -1,5 +1,7 @@
 require_relative 'piece'
 require_relative 'slideable'
+require_relative 'stepable'
+
 class Board
     attr_accessor :rows
 
@@ -31,9 +33,9 @@ class Board
                 add_piece(new_piece, [row_idx, col_idx])
             end
         end
-        queen = Queen.new(:Black, self, [3,4])
-        add_piece(queen, [3,4])
-        print "#{queen.moves}\n"
+        knight = Knight.new(:Black, self, [4,4])
+        add_piece(knight, knight.pos)
+        print "#{knight.moves}\n"
 
         pretty_print_board
     end
@@ -76,4 +78,4 @@ class Board
     end
 end
 x = Board.new
-x.move_piece([3,4], [6,7])
+x.move_piece([4,4], [6,5])

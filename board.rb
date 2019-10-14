@@ -23,34 +23,50 @@ class Board
     end
 
     def pieces
-        (0..1).each do |row_idx|
-            (0...rows.length).each do |col_idx|
-                new_piece = Piece.new(:Black, self, [row_idx, col_idx])
-                add_piece(new_piece, [row_idx, col_idx])
-            end
-        end
-
-        (2..5).each do |row_idx|
-            (0...rows.length).each do |col_idx|
-                add_piece(NullPiece.instance, [row_idx, col_idx])
-            end
-        end
-        
-        (6..7).each do |row_idx|
-            (0...rows.length).each do |col_idx|
-                new_piece = Piece.new(:White, self, [row_idx, col_idx])
-                add_piece(new_piece, [row_idx, col_idx])
-            end
-        end
-        pawn = Pawn.new(:Black, self, [1,7])
-        add_piece(pawn, pawn.pos)
-        # print "Black Pawn: #{pawn.moves}\n"
-
-        pawn = Pawn.new(:White, self, [4,6])
-        add_piece(pawn, pawn.pos)
-        # print "White Pawn: #{pawn.moves}\n"
+        place_pawns(1, :Black)
+        place_pawns(6, :White)
+        place_court(0, :Black)
+        place_court(7, :White)
+        place_null_pieces
 
         pretty_print_board
+    end
+
+    def place_pawns(row, color)
+        rows[row].each_with_index do |square, col_idx| 
+            new_pawn = Pawn.new(color, self, [row, col_idx])
+            add_piece(new_pawn, new_pawn.pos) 
+        end
+    end
+
+    def place_court(row, color)
+        court = get_court(color)
+        rows[row].each_with_index do |square, col_idx| 
+            piece = court[col_idx]
+            piece.pos = [row, col_idx]
+            add_piece(piece, piece.pos)
+        end
+    end
+
+    def get_court(color)
+        court = [
+            Rook.new(color, self, nil),
+            Knight.new(color, self, nil),
+            Bishop.new(color, self, nil),
+            King.new(color, self, nil),
+            Queen.new(color, self, nil),
+            Bishop.new(color, self, nil),
+            Knight.new(color, self, nil),
+            Rook.new(color, self, nil)
+        ]
+    end
+
+    def place_null_pieces
+        rows.each_with_index do |row, row_idx|
+            row.each_with_index do |square, col_idx|
+                rows[row_idx][col_idx] = NullPiece.instance if square.nil?
+            end
+        end
     end
 
     def add_piece(piece, pos)
@@ -96,4 +112,7 @@ class Board
 end
 x = Board.new
 x.move_piece([1,7], [3,7])
-x.move_piece([3,7], [4,6])
+x.move_piece([6,6], [5,6])
+x.move_piece([3,7], [4,7])
+x.move_piece([5,6], [4,7])
+x.move_piece([7,7], [5,7])

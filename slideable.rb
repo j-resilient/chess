@@ -1,5 +1,6 @@
 require_relative 'piece'
 require_relative 'nullpiece'
+require 'byebug'
 
 module Slideable
     attr_reader :HORIZONTAL_DIRS, :DIAGONAL_DIRS

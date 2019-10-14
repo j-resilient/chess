@@ -7,6 +7,10 @@ class NullPiece < Piece
 
     def initialize
         @symbol = :Null
-        @color = nil
+        @color = :green
+    end
+
+    def moves
+        # placeholder
     end
 end

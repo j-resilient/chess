@@ -2,6 +2,8 @@ require_relative 'piece'
 require_relative 'slideable'
 require_relative 'stepable'
 require_relative 'nullpiece'
+require_relative 'pawn'
+require 'byebug'
 
 class Board
     attr_accessor :rows
@@ -40,9 +42,13 @@ class Board
                 add_piece(new_piece, [row_idx, col_idx])
             end
         end
-        knight = Knight.new(:Black, self, [4,4])
-        add_piece(knight, knight.pos)
-        print "#{knight.moves}\n"
+        pawn = Pawn.new(:Black, self, [1,7])
+        add_piece(pawn, pawn.pos)
+        # print "Black Pawn: #{pawn.moves}\n"
+
+        pawn = Pawn.new(:White, self, [4,6])
+        add_piece(pawn, pawn.pos)
+        # print "White Pawn: #{pawn.moves}\n"
 
         pretty_print_board
     end
@@ -71,11 +77,15 @@ class Board
     def move_piece(start_pos, end_pos)
         start_row, start_col = start_pos
         end_row, end_col = end_pos
+        piece = rows[start_row][start_col]
 
-        raise "There is no piece at #{start_pos}." if rows[start_row][start_col].nil?
+        print "#{rows[start_row][start_col].moves}\n"
+
+        raise "There is no piece at #{start_pos}." if rows[start_row][start_col].is_a?(NullPiece)
         raise "Cannot move pieces off of board." unless valid_pos?(end_pos) && valid_pos?(start_pos)
         raise "Piece cannot move there." unless rows[start_row][start_col].moves.include?(end_pos)
 
+        piece.pos = end_pos
         rows[end_row][end_col], rows[start_row][start_col] = rows[start_row][start_col], NullPiece.instance
         pretty_print_board
     end
@@ -85,4 +95,5 @@ class Board
     end
 end
 x = Board.new
-x.move_piece([4,4], [6,5])
+x.move_piece([1,7], [3,7])
+x.move_piece([3,7], [4,6])

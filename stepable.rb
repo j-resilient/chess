@@ -1,4 +1,5 @@
 require_relative 'piece'
+require_relative 'nullpiece'
 
 module Stepable
     def moves
@@ -6,7 +7,7 @@ module Stepable
         cur_row, cur_col = self.pos
         self.move_diffs.each do |dx, dy|
             new_pos = [cur_row + dx, cur_col + dy]
-            if board[new_pos].nil? || board[new_pos].color != self.color
+            if board[new_pos].is_a?(NullPiece) || board[new_pos].color != self.color
                 moves << new_pos
             end
         end

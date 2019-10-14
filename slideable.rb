@@ -1,4 +1,5 @@
 require_relative 'piece'
+require_relative 'nullpiece'
 
 module Slideable
     attr_reader :HORIZONTAL_DIRS, :DIAGONAL_DIRS
@@ -25,7 +26,7 @@ module Slideable
         new_pos = []
         while (cur_row + dx).between?(0,7) && (cur_col + dy).between?(0,7)
             new_pos = [cur_row + dx, cur_col + dy]
-            if board[new_pos].nil?
+            if board[new_pos].is_a?(NullPiece)
                 moves << new_pos
                 cur_row, cur_col = new_pos
             else

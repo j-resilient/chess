@@ -3,6 +3,7 @@ require_relative 'slideable'
 require_relative 'stepable'
 require_relative 'nullpiece'
 require_relative 'pawn'
+require 'byebug'
 
 class Board
     attr_accessor :rows
@@ -35,6 +36,8 @@ class Board
         # so basically all validity checking goes here
         #but the actual moving goes in #move_piece!
         piece = self[start_pos]
+        pieces_moves = piece.moves
+        print "#{piece.moves}\n"
 
         raise "There is no piece at #{start_pos}." if self.empty?(start_pos)
         raise "Cannot move pieces off of board." unless valid_pos?(end_pos) && valid_pos?(start_pos)
@@ -61,6 +64,21 @@ class Board
                 return square.pos if square.is_a?(King) && square.color == color
             end
         end
+    end
+
+    def in_check?(color)
+        king_pos = find_king(color)
+        color = color == :white ? :black : :white
+
+        rows.each_with_index do |row, r_idx|
+            row.each do |square|
+                if square.color == color
+                    return true if square.moves.include?(king_pos)
+                end
+            end
+        end
+
+        false
     end
     private
     def fill_board
@@ -92,8 +110,8 @@ class Board
             Rook.new(color, self, nil),
             Knight.new(color, self, nil),
             Bishop.new(color, self, nil),
-            King.new(color, self, nil),
             Queen.new(color, self, nil),
+            King.new(color, self, nil),
             Bishop.new(color, self, nil),
             Knight.new(color, self, nil),
             Rook.new(color, self, nil)

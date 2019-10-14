@@ -22,12 +22,12 @@ class Pawn < Piece
     private
 
     def at_start_row?
-        (self.pos[0] == 1 && self.color == :Black) ||
-            (self.pos[0] == 6 && self.color == :White)
+        (self.pos[0] == 1 && self.color == :black) ||
+            (self.pos[0] == 6 && self.color == :white)
     end
 
     def forward_dir
-        color == :Black ? 1 : -1
+        color == :black ? 1 : -1
     end
 
     def forward_steps

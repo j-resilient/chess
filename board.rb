@@ -3,7 +3,6 @@ require_relative 'slideable'
 require_relative 'stepable'
 require_relative 'nullpiece'
 require_relative 'pawn'
-require 'colorize'
 
 class Board
     attr_accessor :rows
@@ -32,20 +31,6 @@ class Board
         rows[row][col] = piece
     end
 
-    def pretty_print_board
-        print "   "
-        (0..7).each { |i| print " #{i} " }
-        puts
-        rows.each_with_index do |row, r_idx| 
-            print "#{r_idx}  "
-            row.each do |square|
-                print square.to_s
-            end
-            puts
-        end
-        print "\n\n"
-    end
-
     def move_piece(start_pos, end_pos)
         # so basically all validity checking goes here
         #but the actual moving goes in #move_piece!
@@ -56,7 +41,6 @@ class Board
         raise "Piece cannot move there." unless piece.moves.include?(end_pos)
 
         move_piece!(start_pos, end_pos)
-        pretty_print_board
     end
 
     def move_piece!(start_pos, end_pos)
@@ -73,12 +57,11 @@ class Board
 
     private
     def fill_board
-        place_pawns(1, :Black)
-        place_pawns(6, :White)
-        place_court(0, :Black)
-        place_court(7, :White)
+        place_pawns(1, :black)
+        place_pawns(6, :white)
+        place_court(0, :black)
+        place_court(7, :white)
         place_null_pieces
-        pretty_print_board
     end
 
     def place_pawns(row, color)
@@ -118,35 +101,35 @@ class Board
         end
     end
 end
-x = Board.new
-# Pawns
-x.move_piece([1,7], [3,7])
-x.move_piece([6,6], [4,6])
-x.move_piece([3,7], [4,6])
-x.move_piece([6,7], [4,7])
-x.move_piece([6,0], [4,0])
+# x = Board.new
+# # Pawns
+# x.move_piece([1,7], [3,7])
+# x.move_piece([6,6], [4,6])
+# x.move_piece([3,7], [4,6])
+# x.move_piece([6,7], [4,7])
+# x.move_piece([6,0], [4,0])
 
-# Rooks
-x.move_piece([7,7], [5,7])
-x.move_piece([7,0], [5,0])
-x.move_piece([5,7], [5,4])
-x.move_piece([5,4], [1,4])
+# # Rooks
+# x.move_piece([7,7], [5,7])
+# x.move_piece([7,0], [5,0])
+# x.move_piece([5,7], [5,4])
+# x.move_piece([5,4], [1,4])
 
-# Knights
-x.move_piece([0,6], [1,4])
-x.move_piece([1,4], [3,3])
+# # Knights
+# x.move_piece([0,6], [1,4])
+# x.move_piece([1,4], [3,3])
 
-# Bishops
-x.move_piece([0,5], [3,2])
-x.move_piece([3,2], [6,5])
+# # Bishops
+# x.move_piece([0,5], [3,2])
+# x.move_piece([3,2], [6,5])
 
-# King
-x.move_piece([0,3], [1,4])
-x.move_piece([1,4], [2,4])
+# # King
+# x.move_piece([0,3], [1,4])
+# x.move_piece([1,4], [2,4])
 
-# Queen
-x.move_piece([0,4], [1,4])
-x.move_piece([1,4], [4,7])
-x.move_piece([4,7], [7,7])
-x.move_piece([7,7], [7,6])
-x.move_piece([7,6], [7,5])
+# # Queen
+# x.move_piece([0,4], [1,4])
+# x.move_piece([1,4], [4,7])
+# x.move_piece([4,7], [7,7])
+# x.move_piece([7,7], [7,6])
+# x.move_piece([7,6], [7,5])

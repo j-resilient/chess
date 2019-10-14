@@ -55,6 +55,13 @@ class Board
         pos.all? { |n| n.between?(0,7) }
     end
 
+    def find_king(color)
+        rows.each do |row|
+            row.each do |square| 
+                return square.pos if square.is_a?(King) && square.color == color
+            end
+        end
+    end
     private
     def fill_board
         place_pawns(1, :black)

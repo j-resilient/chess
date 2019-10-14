@@ -1,10 +1,7 @@
 require_relative 'piece'
 require_relative 'nullpiece'
-require 'byebug'
 
 module Slideable
-    attr_reader :HORIZONTAL_DIRS, :DIAGONAL_DIRS
-    
     HORIZONTAL_DIRS = [[1,0],[0,1],[-1,0],[0,-1]]
     DIAGONAL_DIRS = [[1,1],[-1,-1],[1,-1],[-1,1]]
 
@@ -14,7 +11,7 @@ module Slideable
         direction += DIAGONAL_DIRS if self.move_dirs.include?(:diagonal)
 
         moves = []
-        direction.map do |dx, dy|
+        direction.each do |dx, dy|
             moves += grow_unblocked_moves_in_dir(dx, dy)
         end
         moves
@@ -27,7 +24,7 @@ module Slideable
         new_pos = []
         while (cur_row + dx).between?(0,7) && (cur_col + dy).between?(0,7)
             new_pos = [cur_row + dx, cur_col + dy]
-            if board[new_pos].is_a?(NullPiece)
+            if board[new_pos].empty?
                 moves << new_pos
                 cur_row, cur_col = new_pos
             else
@@ -39,7 +36,7 @@ module Slideable
     end
 
     def move_dirs
-        #overwritten in subclass
+        raise NotImplementedError
     end
 end
 
@@ -47,7 +44,7 @@ class Rook < Piece
     include Slideable
 
     def symbol
-        :Rook
+        ' ♜ '.colorize(self.color)
     end
 
     protected
@@ -60,7 +57,7 @@ class Bishop < Piece
     include Slideable
 
     def symbol
-        :Bishop
+        ' ♝ '.colorize(self.color)
     end
 
     protected
@@ -73,7 +70,7 @@ class Queen < Piece
     include Slideable
 
     def symbol
-        :Queen
+        ' ♛ '.colorize(self.color)
     end
 
     protected

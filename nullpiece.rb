@@ -6,11 +6,15 @@ class NullPiece < Piece
     attr_reader :symbol, :color
 
     def initialize
-        @symbol = :Null
+        @symbol = "   "
         @color = :NoColor
     end
 
+    def empty?
+        true
+    end
+
     def moves
-        # placeholder
+        []
     end
 end

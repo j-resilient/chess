@@ -3,21 +3,16 @@ require 'byebug'
 
 class Pawn < Piece
     def symbol
-        :Pawn
+        ' ♟ '.colorize(color)
     end
 
-    # I'm sure there's something I'm missing: the UML says this should be move_dirs
-    # but every other class has a moves method via their module:
-    # and they've got #move_dirs as a protected class to boot
-    # so I'm calling this #moves for now
     def moves
-        # returns all possible moves
         moves = []
         cur_row, cur_col = self.pos
         forward_steps.each do |dx, dy|
             new_move = [cur_row + dx, cur_col + dy]
 
-            if new_move.all? { |coord| coord.between?(0,7) } && board[new_move].is_a?(NullPiece)
+            if new_move.all? { |coord| coord.between?(0,7) } && board[new_move].empty?
                 moves << new_move
             end
         end
@@ -32,8 +27,7 @@ class Pawn < Piece
     end
 
     def forward_dir
-        return 1 if self.color == :Black
-        return -1 if self.color == :White
+        color == :Black ? 1 : -1
     end
 
     def forward_steps
@@ -52,7 +46,7 @@ class Pawn < Piece
             moves << [forward, cur_col + 1] if (cur_col + 1).between?(0,7)
         end
 
-        moves.delete_if { |move| board[move].is_a?(NullPiece) || board[move].color == self.color }
+        moves.delete_if { |move| board[move].empty? || board[move].color == self.color }
         moves
     end
 end

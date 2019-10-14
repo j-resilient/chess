@@ -1,5 +1,6 @@
 class Piece
-    attr_accessor :pos, :board, :color
+    attr_reader :color, :board
+    attr_accessor :pos
     def initialize(color, board, pos)
         @color, @board, @pos = color, board, pos
     end
@@ -13,11 +14,10 @@ class Piece
     end
 
     def valid_moves
-        # ??? not overwritten by a subclass I got nothing
+        # for later
     end
 
     def symbol
-        # overwritten by a subclass
-        @color
+        raise NotImplementedError
     end
 end

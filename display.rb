@@ -28,16 +28,30 @@ class Display
         print "\n\n"
     end
 
-    # def run
-    #     x = 0
-    #     until x == 5
-    #         render
-    #         cursor.get_input
-    #         x += 1
-    #     end
-    # end
+    def run
+        x = 0
+        until x == 5
+            render
+            cursor.get_input
+            x += 1
+        end
+    end
 end
 
 board = Board.new
 display = Display.new(board)
-display.run
+display.render
+
+board.move_piece([6,5],[5,5])
+display.render
+sleep(1)
+board.move_piece([1,4],[3,4])
+display.render
+sleep(1)
+board.move_piece([6,6],[4,6])
+display.render
+# sleep(1)
+# board.move_piece([0,3],[4,7])
+# display.render
+
+puts board.in_check?(:white)

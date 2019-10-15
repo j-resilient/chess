@@ -34,7 +34,7 @@ class Board
 
     def move_piece(start_pos, end_pos)
         # so basically all validity checking goes here
-        #but the actual moving goes in #move_piece!
+        # but the actual moving goes in #move_piece!
         piece = self[start_pos]
         pieces_moves = piece.moves
         print "#{piece.moves}\n"
@@ -58,28 +58,27 @@ class Board
         pos.all? { |n| n.between?(0,7) }
     end
 
+    def pieces
+        @rows.flatten.reject { |square| square.empty? }
+    end
+
     def find_king(color)
-        rows.each do |row|
-            row.each do |square| 
-                return square.pos if square.is_a?(King) && square.color == color
-            end
-        end
+        pieces.find { |piece| piece.color == color && piece.is_a?(King) } ||
+            (raise "King not found")
     end
 
     def in_check?(color)
-        king_pos = find_king(color)
+        king_pos = find_king(color).pos
         color = color == :white ? :black : :white
-
-        rows.each_with_index do |row, r_idx|
-            row.each do |square|
-                if square.color == color
-                    return true if square.moves.include?(king_pos)
-                end
-            end
-        end
-
-        false
+        pieces.any? { |piece| piece.color == color && piece.moves.include?(king_pos) }
     end
+
+    def checkmate?(color)
+        return false unless in_check?(color)
+        king_pos = find_king(color)
+        pieces.none? { |piece| piece.color == color && !valid_moves(piece).empty? }
+    end
+
     private
     def fill_board
         place_pawns(1, :black)
@@ -126,35 +125,3 @@ class Board
         end
     end
 end
-# x = Board.new
-# # Pawns
-# x.move_piece([1,7], [3,7])
-# x.move_piece([6,6], [4,6])
-# x.move_piece([3,7], [4,6])
-# x.move_piece([6,7], [4,7])
-# x.move_piece([6,0], [4,0])
-
-# # Rooks
-# x.move_piece([7,7], [5,7])
-# x.move_piece([7,0], [5,0])
-# x.move_piece([5,7], [5,4])
-# x.move_piece([5,4], [1,4])
-
-# # Knights
-# x.move_piece([0,6], [1,4])
-# x.move_piece([1,4], [3,3])
-
-# # Bishops
-# x.move_piece([0,5], [3,2])
-# x.move_piece([3,2], [6,5])
-
-# # King
-# x.move_piece([0,3], [1,4])
-# x.move_piece([1,4], [2,4])
-
-# # Queen
-# x.move_piece([0,4], [1,4])
-# x.move_piece([1,4], [4,7])
-# x.move_piece([4,7], [7,7])
-# x.move_piece([7,7], [7,6])
-# x.move_piece([7,6], [7,5])

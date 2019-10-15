@@ -42,16 +42,45 @@ board = Board.new
 display = Display.new(board)
 display.render
 
+# White Pawn
 board.move_piece([6,5],[5,5])
 display.render
 sleep(1)
+
+# Black Pawn
 board.move_piece([1,4],[3,4])
 display.render
 sleep(1)
+
+# White Pawn
 board.move_piece([6,6],[4,6])
 display.render
-# sleep(1)
-# board.move_piece([0,3],[4,7])
+sleep(1)
+
+# White Pawn
+board.move_piece([6,4],[5,4])
+display.render
+sleep(1)
+
+# Black Queen
+board.move_piece([0,3],[4,7])
+display.render
+sleep(1)
+
+# # Black Queen
+# board.move_piece([4,7],[5,6])
+# display.render
+
+# # White King
+# board.move_piece([7,4],[6,4])
+# display.render
+
+# # Black Queen
+# board.move_piece([5,6],[6,6])
+# display.render
+
+# # Black Queen
+# board.move_piece([6,6],[5,5])
 # display.render
 
 puts board.in_check?(:white)

@@ -9,11 +9,13 @@ class Board
     attr_accessor :rows
 
     def [](pos)
+        raise 'Invalid position.' unless valid_pos?(pos)
         row, col = pos
         rows[row][col]
     end
 
     def []=(pos, val)
+        raise 'Invalid position.' unless valid_pos?(pos)
         row, col = pos
         rows[row][col] = val
     end
@@ -88,13 +90,11 @@ class Board
 
     def in_check?(color)
         king_pos = find_king(color).pos
-        color = color == :white ? :black : :white
-        pieces.any? { |piece| piece.color == color && piece.moves.include?(king_pos) }
+        pieces.any? { |piece| piece.color != color && piece.moves.include?(king_pos) }
     end
 
     def checkmate?(color)
         return false unless in_check?(color)
-        king_pos = find_king(color)
         pieces.none? { |piece| piece.color == color && !piece.valid_moves.empty? }
     end
 

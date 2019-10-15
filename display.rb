@@ -8,10 +8,20 @@ class Display
     def initialize(board)
         @board = board
         @cursor = Cursor.new([0,0],board)
+        @check = false
+    end
+
+    def check
+        @check = true
+    end
+
+    def uncheck
+        @check = false
     end
 
     def render
         system("clear")
+        puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
         print "   "
         (0..7).each { |i| print " #{i} " }
         puts
@@ -25,6 +35,7 @@ class Display
             end
             puts
         end
-        print "\n\n"
+        puts "Check!" if @check
+        print "\n"
     end
 end

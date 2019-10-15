@@ -9,6 +9,7 @@ class HumanPlayer
     def make_move(board)
         pos = []
         until pos.length == 2
+            puts "#{@color.to_s.capitalize}'s turn:"
             input = @display.cursor.get_input
             pos << input if input.is_a?(Array)
             @display.render

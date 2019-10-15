@@ -42,6 +42,7 @@ class Board
         raise "There is no piece at #{start_pos}." if self.empty?(start_pos)
         raise "Cannot move pieces off of board." unless valid_pos?(end_pos) && valid_pos?(start_pos)
         raise "Piece cannot move there." unless piece.moves.include?(end_pos)
+        raise "Cannot move into check." unless piece.valid_moves.include?(end_pos)
 
         move_piece!(start_pos, end_pos)
     end

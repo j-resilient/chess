@@ -37,7 +37,6 @@ class Board
         # but the actual moving goes in #move_piece!
         piece = self[start_pos]
         pieces_moves = piece.moves
-        print "#{piece.moves}\n"
 
         raise "There is no piece at #{start_pos}." if self.empty?(start_pos)
         raise "Cannot move pieces off of board." unless valid_pos?(end_pos) && valid_pos?(start_pos)

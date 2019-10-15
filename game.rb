@@ -1,5 +1,3 @@
-# UML: https://assets.aaonline.io/fullstack/ruby/assets/Chess_Diagram.png
-
 require_relative 'board'
 require_relative 'display'
 require_relative 'human'

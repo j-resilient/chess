@@ -95,7 +95,7 @@ class Board
     def checkmate?(color)
         return false unless in_check?(color)
         king_pos = find_king(color)
-        pieces.none? { |piece| piece.color == color && !valid_moves(piece).empty? }
+        pieces.none? { |piece| piece.color == color && !piece.valid_moves.empty? }
     end
 
     private

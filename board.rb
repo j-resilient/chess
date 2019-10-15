@@ -22,9 +22,9 @@ class Board
         self[pos].empty?
     end
 
-    def initialize
+    def initialize(fill = true)
         @rows = Array.new(8) { Array.new(8) }
-        fill_board
+        fill_board(fill) if fill
     end
 
     def add_piece(piece, pos)
@@ -58,8 +58,27 @@ class Board
         pos.all? { |n| n.between?(0,7) }
     end
 
+    def dup
+        # return a deep copy of self
+        dup_board = Board.new(false)
+        pieces.each do |piece|
+            new_piece = piece.class.new(piece.color, dup_board, piece.pos)
+            dup_board.add_piece(new_piece, new_piece.pos)
+        end
+        dup_board.place_null_pieces
+        dup_board
+    end
+
     def pieces
         @rows.flatten.reject { |square| square.empty? }
+    end
+
+    def place_null_pieces
+        rows.each_with_index do |row, row_idx|
+            row.each_with_index do |square, col_idx|
+                rows[row_idx][col_idx] = NullPiece.instance if square.nil?
+            end
+        end
     end
 
     def find_king(color)
@@ -80,7 +99,7 @@ class Board
     end
 
     private
-    def fill_board
+    def fill_board(fill)
         place_pawns(1, :black)
         place_pawns(6, :white)
         place_court(0, :black)
@@ -115,13 +134,5 @@ class Board
             Knight.new(color, self, nil),
             Rook.new(color, self, nil)
         ]
-    end
-
-    def place_null_pieces
-        rows.each_with_index do |row, row_idx|
-            row.each_with_index do |square, col_idx|
-                rows[row_idx][col_idx] = NullPiece.instance if square.nil?
-            end
-        end
     end
 end
